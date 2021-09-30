@@ -1,0 +1,5 @@
+SELECT seller_name
+FROM Seller
+LEFT JOIN Orders ON Seller.seller_id=Orders.seller_id and year(sale_date)=2020
+WHERE ORDERS.seller_id is null
+ORDER BY seller_name
