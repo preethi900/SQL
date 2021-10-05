@@ -1,0 +1,3 @@
+SELECT max(num) as num
+FROM my_numbers
+WHERE num not in (SELECT num FROM my_numbers GROUP BY num HAVING COUNT(num) > 1)
