@@ -1,0 +1,4 @@
+SELECT LOWER(TRIM(product_name)) as PRODUCT_NAME,LEFT(sale_date,7) as SALE_DATE,COUNT(sale_id) as TOTAL
+FROM Sales
+GROUP BY 1,2
+ORDER BY 1,2
