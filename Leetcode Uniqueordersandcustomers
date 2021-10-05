@@ -1,0 +1,4 @@
+SELECT left(order_date,7) as month,COUNT(distinct order_id) as order_count,COUNT(distinct customer_id) as customer_count
+FROM Orders
+WHERE invoice > 20
+GROUP BY 1
