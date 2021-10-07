@@ -1,0 +1,57 @@
+6.SELECT name,title,stars
+FROM Reviewer
+JOIN Rating using(rID)
+JOIN Movie using(MID)
+WHERE stars in (SELECT min(stars)
+				FROM Rating)
+        
+        
+7.SELECT title,avg(stars)
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY title
+ORDER BY 2 desc,1
+
+
+
+8.SELECT name
+FROM Reviewer
+JOIN Rating using(rID)
+GROUP BY name
+HAVING COUNT(stars) >= 3
+
+
+9.SELECT M1.title,M1.director
+FROM Movie M1,Movie M2
+WHERE M1.director=M2.director and M1.title<>M2.title
+ORDER BY 2,1
+
+10.SELECT title,avg(stars) as aver
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY mID
+HAVING aver =(
+SELECT max(averag)
+ FROM
+	(SELECT title,avg(stars) as averag
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY mID	))
+
+11.SELECT title,avg(stars) as aver
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY mID
+HAVING aver =(
+SELECT min(averag)
+ FROM
+	(SELECT title,avg(stars) as averag
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY mID	))
+
+12.SELECT director,title,max(stars)
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY director
+HAVING director is NOT NULL
