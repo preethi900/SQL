@@ -1,0 +1,37 @@
+1.SELECT distinct name
+FROM Reviewer
+JOIN Rating using(rID)
+JOIN Movie using(MID)
+WHERE title="Gone with the Wind"
+
+2.SELECT name,title,stars
+FROM Reviewer
+JOIN Rating using(rID)
+JOIN Movie using(MID)
+WHERE name=director
+
+
+3.SELECT distinct title
+FROM MOVIE
+UNION
+SELECT distinct name
+FROM Reviewer
+ORDER BY 1
+
+
+4.SELECT title
+FROM Movie
+WHERE title not in (SELECT title
+	  FROM Reviewer
+	  JOIN Rating using(rID)
+	  JOIN Movie using(mID)
+	  WHERE name='Chris Jackson')
+    
+    
+5.SELECT DISTINCT Re1.name, Re2.name
+FROM Rating R1, Rating R2, Reviewer Re1, Reviewer Re2
+WHERE R1.mID = R2.mID
+AND R1.rID = Re1.rID
+AND R2.rID = Re2.rID
+AND Re1.name < Re2.name
+ORDER BY Re1.name, Re2.name;
