@@ -1,0 +1,35 @@
+6.SELECT name, title
+FROM Movie
+ JOIN Rating R1 USING(mId)
+ JOIN Rating R2 USING(rId, mId)
+ JOIN Reviewer USING(rId)
+WHERE R1.ratingDate < R2.ratingDate AND R1.stars < R2.stars;
+
+
+7.SELECT title,stars
+FROM Movie
+JOIN Rating using(mID)
+GROUP BY title
+HAVING max(stars)
+ORDER BY title
+
+
+8.SELECT title,(max(stars)-min(stars)) as ratingspread
+FROM (SELECT title,stars FROM Movie
+JOIN Rating using(mID))
+GROUP BY title
+ORDER BY ratingspread desc,title
+
+
+9.SELECT abs(round(avg(after1980.average)-avg(before1980.average),14))
+FROM
+(SELECT avg(stars) as average
+ FROM  Movie
+ JOIN Rating using(mID)
+ WHERE year > 1980
+ GROUP BY title) as after1980,
+ (SELECT avg(stars) as average
+  FROM Movie
+  JOIN Rating using(mID)
+ WHERE year < 1980
+ GROUP BY title) as before1980
