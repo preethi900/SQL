@@ -1,0 +1,32 @@
+1.SELECT title
+FROM Movie
+WHERE director='Steven Spielberg'
+
+
+
+
+2.SELECT distinct year
+FROM Movie
+JOIN Rating on Movie.mID=Rating.mID
+WHERE stars=4 or stars=5
+ORDER BY year
+
+
+3.SELECT title
+FROM Movie
+LEFT JOIN Rating on Movie.mID=Rating.mID
+WHERE Rating.mID is null
+
+
+4.SELECT name
+FROM Reviewer
+JOIN Rating ON Reviewer.rID=Rating.rID
+WHERE ratingDate is null
+
+
+
+5.SELECT name,title,stars,ratingDate
+FROM Movie
+JOIN Rating using(mID)
+JOIN Reviewer using(rID)
+ORDER BY 1,2,3
