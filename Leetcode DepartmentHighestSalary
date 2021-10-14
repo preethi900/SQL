@@ -1,0 +1,5 @@
+SELECT D.Name as Department,E.Name as Employee,E.Salary
+FROM Employee E,Department D
+WHERE E.DepartmentId=D.Id AND (DepartmentId,Salary) in  (SELECT DepartmentId,max(Salary)
+                                                        FROM Employee
+                                                        GROUP BY DepartmentId)
