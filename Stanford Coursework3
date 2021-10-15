@@ -1,0 +1,18 @@
+1.INSERT INTO Reviewer(rID,name)
+VALUES(209,"Roger Ebert")
+
+
+2.UPDATE Movie
+SET year = year+25
+WHERE mID in
+(SELECT mID
+FROM Rating
+WHERE stars > 4) 
+
+
+3.DELETE 
+FROM Rating
+WHERE mID in (SELECT mID
+			FROM Movie
+			WHERE year <1970 OR year > 2000)
+			AND stars < 4
