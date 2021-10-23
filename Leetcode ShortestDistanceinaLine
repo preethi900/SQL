@@ -1,0 +1,3 @@
+SELECT min(p1.x-p2.x) as shortest
+FROM Point p1,Point p2
+WHERE p1.x > p2.x
