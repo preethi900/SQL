@@ -1,0 +1,4 @@
+SELECT extra as report_reason,COUNT(distinct post_id) as report_count
+FROM Actions
+WHERE action_date='2019_07_04' and action='report'
+GROUP BY extra
