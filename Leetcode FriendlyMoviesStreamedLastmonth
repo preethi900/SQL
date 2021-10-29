@@ -1,0 +1,4 @@
+SELECT distinct title
+FROM TVProgram
+JOIN Content using(content_id)
+WHERE Kids_content='Y' and content_type='Movies' and month(program_date)='06'
