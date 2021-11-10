@@ -1,0 +1,11 @@
+WITH CTE AS(
+SELECT SUM(B.apple_count+C.apple_count) as apple_count,SUM(B.orange_count+C.orange_count) as orange_count
+FROM Boxes B
+LEFT JOIN Chests C ON B.chest_id=C.chest_id
+UNION
+SELECT SUM(B.apple_count),SUM(B.orange_count)
+FROM Boxes B
+WHERE chest_id is null)
+
+SELECT SUM(apple_count) as apple_count,SUM(orange_count) as orange_count
+FROM CTE
