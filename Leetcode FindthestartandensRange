@@ -1,0 +1,17 @@
+With tb as (
+SELECT log_id
+FROM Logs
+WHERE log_id-1 NOT IN (SELECT log_id FROM Logs)),
+
+
+tb1 as (
+SELECT log_id
+FROM Logs
+WHERE log_id+1 NOT IN (SELECT log_id FROM Logs))
+
+
+SELECT tb.log_id as start_id,tb1.log_id as end_id
+FROM tb,tb1
+WHERE tb.log_id<= tb1.log_id
+GROUP BY 1
+ORDER BY 1
