@@ -1,0 +1,8 @@
+with tb as
+(SELECT activity,COUNT(activity) as actcount
+FROM Friends
+GROUP BY activity)
+
+SELECT activity
+FROM tb
+WHERE  actcount not in (SELECT max(actcount) from tb union SELECT min(actcount) from tb)
