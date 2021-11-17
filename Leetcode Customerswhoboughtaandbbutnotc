@@ -1,0 +1,16 @@
+WITH tb as
+(SELECT *
+FROM Customers
+JOIN Orders using(customer_id))
+SELECT T.customer_id,T.customer_name
+
+FROM (SELECT customer_id,product_name,customer_name
+FROM tb
+WHERE product_name='A' AND customer_id in (SELECT customer_id
+FROM tb
+WHERE product_name='B')
+) T
+WHERE T.customer_id NOT IN (SELECT customer_id
+FROM tb
+WHERE product_name='C')
+GROUP BY 1,2
