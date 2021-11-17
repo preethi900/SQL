@@ -1,0 +1,10 @@
+WITH tb as
+
+(SELECT E1.employee_id as employee_id,E1.name as name,E2.age as age
+FROM Employees E1,Employees E2
+WHERE E1.employee_id=E2.reports_to)
+
+SELECT tb.employee_id,tb.name,COUNT(employee_id) as reports_count,ROUND(avg(age)) as average_age
+FROM tb
+GROUP BY 1
+ORDER BY 1
