@@ -1,0 +1,12 @@
+WITH tb as(
+SELECT sub_id as post_id
+FROM Submissions
+WHERE parent_id is NULL
+GROUP BY 1
+)
+
+SELECT tb.post_id,COUNT(distinct S.sub_id) as number_of_comments
+FROM tb
+LEFT JOIN Submissions S ON tb.post_id=S.parent_id
+GROUP BY 1
+ORDER BY 1
