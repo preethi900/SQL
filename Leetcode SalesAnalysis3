@@ -1,0 +1,8 @@
+SELECT product_id,product_name
+FROM Product
+JOIN Sales using(product_id)
+WHERE month(sale_date) <= 3 AND product_id NOT IN (SELECT product_id
+                                                  FROM Product
+                                                  JOIN Sales using(product_id)
+                                                    WHERE month(sale_date) > 3)
+GROUP BY 1,2
