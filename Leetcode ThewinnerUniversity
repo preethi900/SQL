@@ -1,0 +1,13 @@
+WITH tb as(
+SELECT COUNT(student_id) as countofstudents
+FROM NewYork
+WHERE score >= 90),
+tb1 as(
+SELECT COUNT(student_id) as countofstudents
+FROM California
+WHERE score >= 90)
+
+
+
+SELECT (CASE WHEN tb.countofstudents > tb1.countofstudents THEN "New York University" WHEN tb.countofstudents < tb1.countofstudents THEN "California University" ELSE "No Winner" END) as winner
+FROM tb,tb1
