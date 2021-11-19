@@ -1,0 +1,3 @@
+SELECT Q.id,Q.year,ifnull(N.npv,0) as npv
+FROM Queries Q
+LEFT JOIN NPV N ON Q.id=N.id AND Q.year=N.year
