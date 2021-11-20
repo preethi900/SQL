@@ -1,0 +1,21 @@
+WITH tb as(
+SELECT U.name as name,COUNT(M.user_id) as countuser_id
+FROM MovieRating M
+LEFT JOIN Users U on U.user_id=M.user_id
+GROUP BY M.user_id
+ORDER BY 2 DESC,1
+LIMIT 1),
+tb1 as(
+SELECT M1.title as title,avg(M.rating) as rating
+FROM MovieRating M
+LEFT JOIN Movies M1 on M1.movie_id=M.movie_id
+WHERE month(M.created_at)='02'
+GROUP BY M.movie_id
+ORDER BY 2 DESC,1
+LIMIT 1)
+
+SELECT tb.name as results
+FROM tb
+UNION
+SELECT tb1.title as results
+FROM tb1
