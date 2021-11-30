@@ -1,0 +1,10 @@
+WITH tb as (
+SELECT buyer_id,COUNT(buyer_id) as orders_in_2019
+FROM Orders
+WHERE year(order_date)=2019
+GROUP BY buyer_id)
+
+
+SELECT user_id as buyer_id,join_date,ifnull(orders_in_2019,0) as orders_in_2019
+FROM Users
+LEFT JOIN tb ON Users.user_id=tb.buyer_id
