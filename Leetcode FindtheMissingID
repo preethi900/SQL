@@ -1,0 +1,13 @@
+WITH RECURSIVE tb as(
+SELECT 1 as ids
+UNION ALL
+SELECT ids+1 
+FROM tb
+WHERE ids<100
+)
+
+SELECT *
+FROM tb
+WHERE ids NOT IN (SELECT customer_id
+                         FROM Customers) and ids < (SELECT max(customer_id)
+                                                   FROM Customers)
