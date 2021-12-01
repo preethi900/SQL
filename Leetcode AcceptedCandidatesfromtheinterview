@@ -1,0 +1,5 @@
+SELECT C.candidate_id
+FROM Candidates C
+LEFT JOIN Rounds R ON C.interview_id=R.interview_id AND C.years_of_exp >= 2
+GROUP BY C.candidate_id
+HAVING SUM(score) > 15
