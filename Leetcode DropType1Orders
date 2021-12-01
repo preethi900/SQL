@@ -1,0 +1,13 @@
+WITH tb as(
+SELECT order_id,customer_id,order_type
+FROM Orders
+WHERE order_type=0
+)
+
+SELECT *
+FROM Orders
+WHERE customer_id NOT in (SELECT customer_id
+                         FROM tb) 
+UNION
+SELECT *
+FROM tb
