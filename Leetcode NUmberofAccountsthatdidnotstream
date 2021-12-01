@@ -1,0 +1,4 @@
+SELECT COUNT(S.account_id) as accounts_count
+FROM Subscriptions S
+LEFT JOIN Streams S1 ON S.account_id=S1.account_id AND year(S.end_date)=2021
+WHERE year(S1.stream_date)=2020
