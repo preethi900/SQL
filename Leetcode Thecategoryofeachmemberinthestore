@@ -13,3 +13,17 @@ GROUP BY M.member_id)
 SELECT t.member_id,t.name,(CASE WHEN ((100*t1.numberofpurchases)/t.numberofvisits) >= 80 THEN 'Diamond' WHEN ((100*t1.numberofpurchases)/t.numberofvisits) < 80 AND ((100*t1.numberofpurchases)/t.numberofvisits) >=50 THEN 'Gold' WHEN  ((100*t1.numberofpurchases)/t.numberofvisits) < 50 THEN 'Silver' ELSE 'Bronze' END) as category
 FROM tb t,tb1 t1
 WHERE t.member_id=t1.member_id
+
+
+
+//Still optimized code
+
+WITH tb as(
+SELECT M.member_id,M.name,COUNT(P.charged_amount) as numberofpurchases,COUNT(V.visit_date) as numberofvisits
+FROM Members M
+LEFT JOIN Visits V ON  M.member_id=V.member_id
+LEFT JOIN Purchases P ON V.visit_id=P.visit_id
+GROUP BY M.member_id)
+
+SELECT t.member_id,t.name,(CASE WHEN ((100*t.numberofpurchases)/t.numberofvisits) >= 80 THEN 'Diamond' WHEN ((100*t.numberofpurchases)/t.numberofvisits) < 80 AND ((100*t.numberofpurchases)/t.numberofvisits) >=50 THEN 'Gold' WHEN  ((100*t.numberofpurchases)/t.numberofvisits) < 50 THEN 'Silver' ELSE 'Bronze' END) as category
+FROM tb t
