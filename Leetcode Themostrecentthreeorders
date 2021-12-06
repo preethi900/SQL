@@ -1,0 +1,6 @@
+SELECT b.name as customer_name,a.customer_id,a.order_id,a.order_date
+FROM (SELECT order_id,customer_id,order_date,rank() over(partition by customer_id order by order_date desc) as rnk
+FROM Orders) a
+LEFT JOIN Customers b ON a.customer_id=b.customer_id
+WHERE rnk <= 3
+ORDER BY customer_name,customer_id,order_date DESC
