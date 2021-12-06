@@ -1,0 +1,6 @@
+SELECT product_name,a.product_id,order_id,order_date
+FROM (SELECT product_id,order_id,rank() over (partition by product_id ORDER BY order_date DESC) as rnk,order_date
+FROM Orders) a
+LEFT JOIN Products P ON a.product_id=P.product_id
+WHERE rnk=1
+ORDER BY product_name,product_id,order_id
