@@ -1,0 +1,26 @@
+with CTE as (
+    select id, p.name, c.name as country
+    from Person as p
+    join Country as c 
+    on left(phone_number, 3)=country_code
+    ),
+    
+CTE1 as (
+    select c1.country as country1, c2.country as country2, duration 
+    from Calls
+    join CTE as c1 on caller_id = c1.id
+    join CTE as c2 on callee_id = c2.id
+),
+
+CTE2 as(
+    select country1 as country, duration
+    from CTE1 
+    union all
+    select country2 as country, duration
+    from CTE1
+)
+
+select distinct country
+from CTE2
+group by country
+having avg(duration) > (select avg(duration) from Calls)
