@@ -1,0 +1,11 @@
+WITH tb as (
+SELECT order_id,avg(quantity) as avquantity,max(quantity) as maxquantity
+FROM OrdersDetails
+GROUP BY 1),tb1 as (SELECT max(avquantity) as maximumaveragequantity
+                   FROM tb
+)
+
+
+SELECT order_id
+FROM tb
+JOIN tb1 ON tb.maxquantity > tb1.maximumaveragequantity
