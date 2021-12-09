@@ -1,0 +1,8 @@
+WITH tb as(
+SELECT D.name as Department,E.name as Employee,salary,dense_rank() over (partition by D.name ORDER BY salary DESC) as rnk
+FROM Employee E
+LEFT JOIN Department D ON E.departmentId=D.id)
+
+SELECT Department,Employee,Salary
+FROM tb
+WHERE rnk <= 3
