@@ -1,0 +1,13 @@
+WITH recursive n as (
+SELECT task_id,subtasks_count,1 as id
+FROM Tasks
+UNION
+SELECT task_id,subtasks_count,id+1 as id
+FROM n
+WHERE id < subtasks_count)
+
+
+SELECT task_id,id as subtask_id
+FROM n
+WHERE (task_id,id) NOT IN (SELECT task_id,subtask_id
+                           FROM Executed)
