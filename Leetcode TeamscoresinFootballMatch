@@ -1,0 +1,19 @@
+
+WITH tb as (
+SELECT match_id,host_team as team_id,CASE WHEN host_goals > guest_goals THEN 3 WHEN host_goals < guest_goals THEN 0 ELSE 1 END as num_points
+FROM Matches
+    
+UNION
+SELECT match_id,guest_team as team_id,CASE WHEN host_goals < guest_goals THEN 3 WHEN host_goals > guest_goals THEN 0 ELSE 1 END as num_points
+FROM Matches   
+
+),
+tb1 as (
+SELECT team_id,SUM(num_points) as num_points
+FROM tb
+GROUP BY 1)
+
+SELECT T.team_id as team_id,T.team_name as team_name,ifnull(p.num_points,0) as num_points
+FROM Teams T
+LEFT JOIN tb1 p ON T.team_id=p.team_id
+ORDER BY num_points DESC,team_id
