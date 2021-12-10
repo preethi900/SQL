@@ -1,0 +1,22 @@
+WITH tb as(
+SELECT username,activity,startDate,endDate,rank() over (partition by username ORDER BY startDate DESC) as rnk
+FROM UserActivity),
+tb1 as(
+
+SELECT * 
+FROM tb
+WHERE rnk < 3
+ORDER BY rnk DESC),
+tb2 as(
+SELECT *
+FROM tb1
+WHERE rnk=2 
+)
+
+SELECT username,activity,startDate,endDate
+FROM tb1
+WHERE rnk=1 and username NOT IN (SELECT username
+                                FROM tb2)
+UNION
+SELECT username,activity,startDate,endDate
+FROM tb2
