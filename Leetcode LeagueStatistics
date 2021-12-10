@@ -1,0 +1,15 @@
+WITH tb as(
+SELECT home_team_id as team_id,(CASE WHEN home_team_goals > away_team_goals THEN 3 WHEN home_team_goals < away_team_goals THEN 0 ELSE 1 END) as points,home_team_goals as goals_for,away_team_goals as goals_against
+FROM Matches
+UNION ALL
+SELECT away_team_id as team_id,(CASE WHEN home_team_goals < away_team_goals THEN 3 WHEN home_team_goals > away_team_goals THEN 0 ELSE 1 END) as points,away_team_goals as goals_for,home_team_goals as goals_against
+FROM Matches),
+tb1 as (
+SELECT team_id,COUNT(team_id) as matches_played,SUM(points) as points,SUM(goals_for) as goals_for,SUM(goals_against) as goals_against,(SUM(goals_for)-SUM(goals_against)) as goal_diff
+FROM tb
+GROUP BY team_id)
+
+SELECT team_name,p.matches_played as matches_played,p.points as points,p.goals_for as goal_for,p.goals_against as goal_against,p.goal_diff as goal_diff
+FROM tb1 p 
+LEFT JOIN Teams T ON T.team_id=p.team_id
+ORDER BY points DESC,goal_diff DESC,team_name
