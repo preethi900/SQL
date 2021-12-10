@@ -1,0 +1,21 @@
+WITH tb as(
+SELECT *,(CASE WHEN income < 20000 THEN 'Low Salary' WHEN income > 50000 THEN 'High Salary' ELSE 'Average Salary' END) as category
+FROM Accounts),
+tb1 as(
+SELECT 'Low Salary' as category
+UNION
+SELECT 'Average Salary' as category
+UNION
+SELECT 'High Salary' as category)
+
+
+SELECT category,COUNT(category) as accounts_count
+FROM tb
+GROUP BY category
+UNION
+SELECT category,0 as accounts_counts
+FROM tb1
+WHERE category NOT IN (SELECT a.category
+                       FROM (SELECT category,COUNT(category) as accounts_count
+                            FROM tb
+                            GROUP BY category) a)
