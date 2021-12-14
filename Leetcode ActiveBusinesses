@@ -1,0 +1,12 @@
+WITH tb as(
+SELECT event_type,avg(occurences) as average
+FROM Events
+GROUP BY event_type)
+
+
+SELECT business_id
+FROM Events
+JOIN tb t using(event_type)
+WHERE occurences > average
+GROUP BY business_id
+HAVING COUNT(*) > 1
