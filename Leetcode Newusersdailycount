@@ -1,0 +1,10 @@
+WITH tb as(
+SELECT user_id,activity,min(activity_date) as activity_date
+FROM Traffic
+WHERE activity='login'
+GROUP BY 1
+)
+SELECT activity_date as login_date ,COUNT(*) as user_count
+FROM tb
+WHERE activity_date BETWEEN '2019-04-01' AND '2019-06-30'
+GROUP BY activity_date
