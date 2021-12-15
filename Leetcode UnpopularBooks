@@ -1,0 +1,17 @@
+with older_books as(
+select *
+from Books
+where available_from <='2019-05-23'
+),
+
+last_year_orders as(
+select book_id, sum(quantity) as total_quantity
+from Orders
+where dispatch_date between '2018-06-24' and '2019-06-23'
+group by book_id)
+
+select o.book_id, o.name
+from older_books o
+left join last_year_orders l
+on o.book_id=l.book_id
+where ifnull(l.total_quantity,0)<10
