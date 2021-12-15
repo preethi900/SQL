@@ -1,0 +1,12 @@
+WITH tb as(
+SELECT *,rank() over (partition by customer_id order by order_date) as rnk
+FROM Delivery
+),
+tb1 as (
+SELECT customer_id,SUM(CASE WHEN order_date=customer_pref_delivery_date THEN 1 ELSE 0 END) as order_mode,COUNT(*) as total
+FROM tb
+WHERE rnk=1
+)
+
+SELECT ROUND((tb1.order_mode/total*100),2) as immediate_percentage
+FROM tb1
