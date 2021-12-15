@@ -1,0 +1,12 @@
+with b as
+			(SELECT *, MAX(score) OVER(PARTITION BY exam_id) as max_score, MIN(score) OVER(PARTITION BY exam_id) as min_score
+			FROM Exam)
+            
+            
+SELECT distinct b.student_id,student_name
+FROM b
+JOIN Student S ON b.student_id=S.student_id
+WHERE score != max_score AND score != min_score and b.student_id
+NOT IN (SELECT b.student_id
+       FROM b
+       WHERE score=max_score OR score=min_score)
