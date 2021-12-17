@@ -1,0 +1,12 @@
+SELECT am.name America,asia.name Asia,eu.name Europe
+FROM (SELECT name,row_number() over (order by name) as row_num
+FROM Student
+WHERE continent='America') am
+
+LEFT JOIN (SELECT name,row_number() over (order by name) as row_num
+FROM Student
+WHERE continent='Asia') asia ON am.row_num=asia.row_num
+
+LEFT JOIN (SELECT name,row_number() over (order by name) as row_num
+FROM Student
+WHERE continent='Europe') eu ON am.row_num=eu.row_num
