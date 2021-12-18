@@ -1,0 +1,14 @@
+WITH tb as(
+SELECT rank() over (partition by seller_id order by order_date) as rnk,item_id,seller_id
+FROM Orders
+),
+tb1 as (
+SELECT tb.seller_id,I.item_brand
+FROM tb
+LEFT JOIN Items I ON tb.item_id=I.item_id
+WHERE rnk=2
+)
+
+SELECT user_id as seller_id,(CASE WHEN favorite_brand=item_brand THEN 'yes' ELSE 'no' END) as 2nd_item_fav_brand
+FROM Users U
+LEFT JOIN tb1 t ON U.user_id=t.seller_id
