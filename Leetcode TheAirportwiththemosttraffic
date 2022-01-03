@@ -1,0 +1,19 @@
+WITH tb as (
+SELECT departure_airport as airport_id,SUM(flights_count) as total_count
+FROM Flights
+Group BY 1
+UNION
+SELECT arrival_airport as airport_id,SUM(flights_count) as total_count
+FROM Flights
+Group BY 1),
+tb1 as(
+
+SELECT airport_id,SUM(total_count) as total_count
+FROM tb
+GROUP BY 1
+)
+
+SELECT airport_id
+FROM tb1
+WHERE total_count in (SELECT max(total_count) as max_count
+                     FROM tb1)
