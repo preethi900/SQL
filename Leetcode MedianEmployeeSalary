@@ -1,0 +1,9 @@
+WITH cte as(
+select Employee.*, row_number() over(partition by company order by salary) as rn,
+count(id) over(partition by company) as count
+from Employee)
+
+
+select id,company,salary
+from cte
+where ceil(count/2)=rn or (count+2)/2=rn
