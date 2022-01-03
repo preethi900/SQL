@@ -1,0 +1,15 @@
+WITH tb as(
+SELECT *,SUM(frequency) over (order by num) as fr
+FROM Numbers)
+
+SELECT round(avg(num),1) as median
+FROM Numbers
+WHERE num=(SELECT min(num) as m
+          FROM tb
+          WHERE fr=(SELECT SUM(frequency)/2
+                   FROM Numbers)) OR
+                   
+      num=(SELECT min(num) as m
+          FROM tb
+          WHERE fr>(SELECT SUM(frequency)/2
+                   FROM Numbers))
